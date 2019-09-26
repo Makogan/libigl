@@ -222,7 +222,9 @@ IGL_INLINE void ImGuiMenu::draw_viewer_menu()
   {
     if (ImGui::Button("Center object", ImVec2(-1, 0)))
     {
-      viewer->core().align_camera_center(viewer->data().V, viewer->data().F);
+      align_camera_center(viewer->data().V, viewer->data().F,
+        viewer->core.camera_base_zoom, viewer->core.camera_base_translation,
+        viewer->core.object_scale);
     }
     if (ImGui::Button("Snap canonical view", ImVec2(-1, 0)))
     {
@@ -339,8 +341,8 @@ IGL_INLINE void ImGuiMenu::draw_labels(const igl::opengl::ViewerData &data)
     for (int i = 0; i < data.V.rows(); ++i)
     {
       draw_text(
-        data.V.row(i), 
-        data.V_normals.row(i), 
+        data.V.row(i),
+        data.V_normals.row(i),
         std::to_string(i),
         data.label_color);
     }
@@ -358,8 +360,8 @@ IGL_INLINE void ImGuiMenu::draw_labels(const igl::opengl::ViewerData &data)
       p /= (double) data.F.cols();
 
       draw_text(
-        p, 
-        data.F_normals.row(i), 
+        p,
+        data.F_normals.row(i),
         std::to_string(i),
         data.label_color);
     }
@@ -370,7 +372,7 @@ IGL_INLINE void ImGuiMenu::draw_labels(const igl::opengl::ViewerData &data)
     for (int i = 0; i < data.labels_positions.rows(); ++i)
     {
       draw_text(
-        data.labels_positions.row(i), 
+        data.labels_positions.row(i),
         Eigen::Vector3d(0.0,0.0,0.0),
         data.labels_strings[i],
         data.label_color);
@@ -379,8 +381,8 @@ IGL_INLINE void ImGuiMenu::draw_labels(const igl::opengl::ViewerData &data)
 }
 
 IGL_INLINE void ImGuiMenu::draw_text(
-  Eigen::Vector3d pos, 
-  Eigen::Vector3d normal, 
+  Eigen::Vector3d pos,
+  Eigen::Vector3d normal,
   const std::string &text,
   const Eigen::Vector4f color)
 {

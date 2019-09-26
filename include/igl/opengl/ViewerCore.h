@@ -14,6 +14,8 @@
 #include <Eigen/Geometry>
 #include <Eigen/Core>
 
+#include "align_camera_center.h"
+
 namespace igl
 {
 namespace opengl
