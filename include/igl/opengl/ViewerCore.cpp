@@ -76,7 +76,7 @@ IGL_INLINE void igl::opengl::ViewerCore::get_scale_and_shift_to_fit_mesh(
 {
   if (V.rows() == 0)
     return;
-
+  // Find the points defining the AABB of the vertex set
   auto min_point = V.colwise().minCoeff();
   auto max_point = V.colwise().maxCoeff();
   auto centroid  = (0.5*(min_point + max_point)).eval();
@@ -115,7 +115,7 @@ IGL_INLINE void igl::opengl::ViewerCore::draw(
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  /* Bind and potentially refresh mesh/line/point data */
+  // Bind and potentially refresh mesh/line/point data
   if (data.dirty)
   {
     data.updateGL(data, data.invert_normals, data.meshgl);

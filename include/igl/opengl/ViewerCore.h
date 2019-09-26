@@ -40,29 +40,53 @@ public:
 
   // ------------------- Camera control functions
 
-  // Adjust the view to see the entire model
+  // Adjust the view to see the entire model by fiting the model
+  // to the boundaries of the viewport
+  //
+  // Inputs:
+  //   V  #V by dim list of vertex positions
+  //   F  #F by #simplex size list of triangle indices into V
   IGL_INLINE void align_camera_center(
     const Eigen::MatrixXd& V,
     const Eigen::MatrixXi& F);
 
   // Determines how much to zoom and shift such that the mesh fills the unit
   // box (centered at the origin)
+  //
+  // Inputs:
+  //   V  #V by dim list of vertex positions
+  //   F  #F by #simplex size list of triangle indices into V
+  // Outputs:
+  //   zoom  zoom level to fit the mesh in the viewport
+  //   shift  centroid of the AABB of the barycenter set of F
+  //
   IGL_INLINE void get_scale_and_shift_to_fit_mesh(
     const Eigen::MatrixXd& V,
     const Eigen::MatrixXi& F,
     float & zoom,
     Eigen::Vector3f& shift);
 
-    // Adjust the view to see the entire model
-    IGL_INLINE void align_camera_center(
-      const Eigen::MatrixXd& V);
+  // Adjust the view to see the entire model by fiting the model
+  // to the boundaries of the viewport
+  //
+  // Inputs:
+  //   V  #V by dim list of vertex positions
+  IGL_INLINE void align_camera_center(
+    const Eigen::MatrixXd& V);
 
-    // Determines how much to zoom and shift such that the mesh fills the unit
-    // box (centered at the origin)
-    IGL_INLINE void get_scale_and_shift_to_fit_mesh(
-      const Eigen::MatrixXd& V,
-      float & zoom,
-      Eigen::Vector3f& shift);
+  // Determines how much to zoom and shift such that the mesh fills the unit
+  // box (centered at the origin)
+  //
+  // Inputs:
+  //   V  #V by dim list of vertex positions
+  // Outputs:
+  //   zoom  zoom level to fit the mesh in the viewport
+  //   shift  centroid of the AABB of the barycenter set of V
+  //
+  IGL_INLINE void get_scale_and_shift_to_fit_mesh(
+    const Eigen::MatrixXd& V,
+    float & zoom,
+    Eigen::Vector3f& shift);
 
   // ------------------- Drawing functions
 
@@ -127,10 +151,15 @@ public:
   Eigen::Vector3f camera_base_translation;
   Eigen::Vector3f camera_translation;
   Eigen::Vector3f camera_eye;
+  // Up direction of the camera
   Eigen::Vector3f camera_up;
+  // Point the camera is looking at
   Eigen::Vector3f camera_center;
+  // Field of view
   float camera_view_angle;
+  // Near clipping distance
   float camera_dnear;
+  // Far cliping distance
   float camera_dfar;
 
   bool depth_test;
