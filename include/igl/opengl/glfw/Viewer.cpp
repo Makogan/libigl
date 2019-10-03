@@ -638,8 +638,8 @@ namespace glfw
   IGL_INLINE bool Viewer::mouse_down(MouseButton button,int modifier)
   {
     // Remember mouse location at down even if used by callback/plugin
-    down_mouse_x = current_mouse_x;
-    down_mouse_y = current_mouse_y;
+    prev_mouse_x = current_mouse_x;
+    prev_mouse_y = current_mouse_y;
 
     for (unsigned int i = 0; i<plugins.size(); ++i)
       if(plugins[i]->mouse_down(static_cast<int>(button),modifier))
@@ -721,8 +721,8 @@ namespace glfw
   {
     if(hack_never_moved)
     {
-      down_mouse_x = mouse_x;
-      down_mouse_y = mouse_y;
+      prev_mouse_x = mouse_x;
+      prev_mouse_y = mouse_y;
       hack_never_moved = false;
     }
     current_mouse_x = mouse_x;
@@ -759,8 +759,8 @@ namespace glfw
                 core().viewport(3),
                 2.0f,
                 down_rotation,
-                down_mouse_x - core().viewport(0),
-                down_mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
+                prev_mouse_x - core().viewport(0),
+                prev_mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
                 mouse_x - core().viewport(0),
                 mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
                 core().trackball_angle);
@@ -770,8 +770,8 @@ namespace glfw
                 core().viewport(2),core().viewport(3),
                 2.0,
                 down_rotation,
-                down_mouse_x - core().viewport(0),
-                down_mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
+                prev_mouse_x - core().viewport(0),
+                prev_mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
                 mouse_x - core().viewport(0),
                 mouse_y - (height_window - core().viewport(1) - core().viewport(3)),
                 core().trackball_angle);
@@ -786,7 +786,7 @@ namespace glfw
         {
           //translation
           Eigen::Vector3f pos1 = igl::unproject(Eigen::Vector3f(mouse_x, core().viewport[3] - mouse_y, down_mouse_z), core().view, core().proj, core().viewport);
-          Eigen::Vector3f pos0 = igl::unproject(Eigen::Vector3f(down_mouse_x, core().viewport[3] - down_mouse_y, down_mouse_z), core().view, core().proj, core().viewport);
+          Eigen::Vector3f pos0 = igl::unproject(Eigen::Vector3f(prev_mouse_x, core().viewport[3] - prev_mouse_y, down_mouse_z), core().view, core().proj, core().viewport);
 
           Eigen::Vector3f diff = pos1 - pos0;
           core().camera_translation = down_translation + Eigen::Vector3f(diff[0],diff[1],diff[2]);
@@ -795,10 +795,10 @@ namespace glfw
         }
         case MouseMode::Zoom:
         {
-          float delta = 0.001f * (mouse_x - down_mouse_x + mouse_y - down_mouse_y);
+          float delta = 0.001f * (mouse_x - prev_mouse_x + mouse_y - prev_mouse_y);
           core().camera_zoom *= 1 + delta;
-          down_mouse_x = mouse_x;
-          down_mouse_y = mouse_y;
+          prev_mouse_x = mouse_x;
+          prev_mouse_y = mouse_y;
           break;
         }
 

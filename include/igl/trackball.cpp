@@ -44,8 +44,8 @@ IGL_INLINE void igl::trackball(
   const double w,
   const double h,
   const Q_type speed_factor,
-  const double down_mouse_x,
-  const double down_mouse_y,
+  const double prev_mouse_x,
+  const double prev_mouse_y,
   const double mouse_x,
   const double mouse_y,
   Q_type * quat)
@@ -53,9 +53,9 @@ IGL_INLINE void igl::trackball(
   assert(speed_factor > 0);
 
   double original_x =
-    _QuatIX<Q_type>(speed_factor*(down_mouse_x-w/2)+w/2, w, h);
+    _QuatIX<Q_type>(speed_factor*(prev_mouse_x-w/2)+w/2, w, h);
   double original_y =
-    _QuatIY<Q_type>(speed_factor*(down_mouse_y-h/2)+h/2, w, h);
+    _QuatIY<Q_type>(speed_factor*(prev_mouse_y-h/2)+h/2, w, h);
 
   double x = _QuatIX<Q_type>(speed_factor*(mouse_x-w/2)+w/2, w, h);
   double y = _QuatIY<Q_type>(speed_factor*(mouse_y-h/2)+h/2, w, h);
@@ -92,8 +92,8 @@ IGL_INLINE void igl::trackball(
   const double h,
   const Q_type speed_factor,
   const Q_type * down_quat,
-  const double down_mouse_x,
-  const double down_mouse_y,
+  const double prev_mouse_x,
+  const double prev_mouse_y,
   const double mouse_x,
   const double mouse_y,
   Q_type * quat)
@@ -102,7 +102,7 @@ IGL_INLINE void igl::trackball(
   igl::trackball<double>(
     w,h,
     speed_factor,
-    down_mouse_x,down_mouse_y,
+    prev_mouse_x,prev_mouse_y,
     mouse_x,mouse_y,
     qrot);
   double nqorig =
@@ -138,8 +138,8 @@ IGL_INLINE void igl::trackball(
   const double h,
   const double speed_factor,
   const Eigen::Quaternion<Scalardown_quat> & down_quat,
-  const double down_mouse_x,
-  const double down_mouse_y,
+  const double prev_mouse_x,
+  const double prev_mouse_y,
   const double mouse_x,
   const double mouse_y,
   Eigen::Quaternion<Scalarquat> & quat)
@@ -150,8 +150,8 @@ IGL_INLINE void igl::trackball(
     h,
     (Scalarquat)speed_factor,
     down_quat.coeffs().data(),
-    down_mouse_x,
-    down_mouse_y,
+    prev_mouse_x,
+    prev_mouse_y,
     mouse_x,
     mouse_y,
     quat.coeffs().data());

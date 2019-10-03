@@ -187,8 +187,8 @@ public:
     Eigen::Quaternionf down_rotation;
     int current_mouse_x;
     int current_mouse_y;
-    int down_mouse_x;
-    int down_mouse_y;
+    int prev_mouse_x;
+    int prev_mouse_y;
     float down_mouse_z;
     Eigen::Vector3f down_translation;
     bool down;
