@@ -148,10 +148,8 @@ public:
   Eigen::Quaternionf trackball_angle;
 
   // Camera parameters
-  float camera_base_zoom;
   float camera_zoom;
   bool orthographic;
-  Eigen::Vector3f camera_base_translation;
   Eigen::Vector3f camera_translation;
   Eigen::Vector3f camera_eye;
   // Up direction of the camera
@@ -203,10 +201,8 @@ namespace igl {
       SERIALIZE_MEMBER(trackball_angle);
       SERIALIZE_MEMBER(rotation_type);
 
-      SERIALIZE_MEMBER(camera_base_zoom);
       SERIALIZE_MEMBER(camera_zoom);
       SERIALIZE_MEMBER(orthographic);
-      SERIALIZE_MEMBER(camera_base_translation);
       SERIALIZE_MEMBER(camera_translation);
       SERIALIZE_MEMBER(camera_view_angle);
       SERIALIZE_MEMBER(camera_dnear);

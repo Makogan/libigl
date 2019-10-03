@@ -223,8 +223,8 @@ IGL_INLINE void ImGuiMenu::draw_viewer_menu()
     if (ImGui::Button("Center object", ImVec2(-1, 0)))
     {
       align_camera_center(viewer->data().V, viewer->data().F,
-        viewer->core.camera_base_zoom, viewer->core.camera_base_translation,
-        viewer->core.object_scale);
+        viewer->core().camera_base_zoom, viewer->core().camera_base_translation,
+        viewer->core().object_scale);
     }
     if (ImGui::Button("Snap canonical view", ImVec2(-1, 0)))
     {
